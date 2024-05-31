@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción con XGBoost</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+
+            <a href="{% url 'carga_csv' %}" class="btn btn-success">Volver</a>
+
+            <h2>Predicción con XGBoost para todos los meses de 2023</h2>
+
+            {% if error_message %}
+            <div style="color: red;">
+                <strong>Error:</strong> {{ error_message }}
+            </div>
+            {% endif %}
+
+            <h2>Selecciona un archivo</h2>
+
+            <form action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="csv_file">
+                <button type="submit">Mostrar Resultado</button>
+            </form>
+        </div>
+
+        <div class="content-box">
+            {% if data %}
+                {% for item in data %}
+                    <h2>Tabla de resultados de predicción para SKU: {{ item.sku }} para todos los meses de 2023</h2>
+                    <table>
+ 
+                        <tbody>
+                            {{ item.table_html|safe }}
+                        </tbody>
+                    </table>
+                    <h2>Gráfico de predicción para SKU: {{ item.sku }} en 2023</h2>
+                    <img src="{{ item.graph }}" alt="Gráfico de predicción para SKU {{ item.sku }}">
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

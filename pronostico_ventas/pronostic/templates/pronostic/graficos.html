@@ -1,0 +1,68 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>graficos</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+
+
+            <a href="{% url 'carga_csv' %}" class="btn btn-success">Volver</a>
+            <h2>Menu graficos</h2>
+            {% if error_message %}
+            <div style="color: red;">
+                <strong>Error:</strong> {{ error_message }}
+            </div>
+            {% endif %}
+            <form action="{% url 'graficos' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="csv_file" required>
+                <button type="submit">Subir CSV</button>
+            </form>
+
+            <h2>Seleccionar archivo CSV y parámetros para la regresión lineal</h2>
+            <form action="{% url 'graficos' %}" method="get">
+                <select name="csv_id" required>
+                    {% for archivo_csv in archivos_csv %}
+                        <option value="{{ archivo_csv.id }}">{{ archivo_csv.archivo.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="mes">Seleccionar mes:</label>
+                <select name="mes" id="mes" required>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+
+                <button type="submit">Mostrar gráficos</button>
+            </form>
+
+        </div>
+
+        <div class="content-box">
+            {% if plot_path %}
+            <h2>Gráfico de Predicciones</h2>
+            <img src="{{ plot_path }}" alt="Gráfico de Predicciones">
+            {% endif %}
+        </div>
+        
+
+    </div>
+</body>
+</html>
