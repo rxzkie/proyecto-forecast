@@ -16,8 +16,6 @@ from django.utils import timezone
 from django.shortcuts import render
 
 import numpy as np
-
-from sklearn.linear_model import LinearRegression
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
@@ -49,7 +47,7 @@ def logout_view(request):
     logout(request)
     return redirect('index') 
 
-
+#este codigo a continuacion contra la primea view luego del login, este hacia una reg lineal simple
 
 # def carga_csv(request):
 #     archivos_csv = CSVFile.objects.all()
@@ -671,8 +669,7 @@ def graficos_tree(request):
 
 
 
-
-
+#este codigo no itera por meses, predice a partir de todos los datos
 
 # import pandas as pd
 # import io
